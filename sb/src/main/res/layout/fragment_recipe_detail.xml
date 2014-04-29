@@ -1,0 +1,355 @@
+<LinearLayout
+    android:id="@+id/recipe_detail"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/first_row">
+        <!-- First row: Title, ABV, IBU -->
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/title_text"
+            android:inputType="text"
+            android:gravity="right"
+            android:layout_weight="50"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/abv_text"
+            android:layout_weight="25"
+            android:paddingLeft="2dp"
+            android:gravity="right"
+            />
+
+        <TextView
+            android:layout_weight="25"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ibu_text"
+            android:gravity="right"
+            android:paddingLeft="2dp"
+        />
+    </LinearLayout>
+
+    <!-- Second Row: Style, Yeast -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/second_row">
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/style_spinner"
+            android:spinnerMode="dialog"
+            android:layout_weight="1"/>
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/yeast_spinner"
+            android:spinnerMode="dialog"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <!-- Third Row: OG, FG, Efficiency, Attenuation -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/third_row">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/og_label"
+            android:labelFor="@+id/og_picker"
+            android:text="@string/og_label"
+            android:gravity="left"
+            android:layout_gravity="center_vertical"
+            />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/og_picker"
+            android:inputType="numberDecimal"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fg_label"
+            android:labelFor="@+id/fg_picker"
+            android:text="@string/fg_label"
+            android:gravity="left"
+            android:layout_gravity="center_vertical"
+
+            />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/fg_picker"
+            android:inputType="numberDecimal"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/eff_label"
+            android:labelFor="@+id/eff_picker"
+            android:text="@string/eff_label"
+            android:layout_gravity="center_vertical"
+            />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/eff_picker"
+            android:inputType="numberDecimal"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/att_label"
+            android:labelFor="@+id/att_picker"
+            android:text="@string/att_label"
+            android:layout_gravity="center_vertical"
+            />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/att_picker"
+            android:inputType="numberDecimal"
+            android:gravity="right"
+            android:layout_gravity="right"
+            />
+
+    </LinearLayout>
+
+    <!-- Fourth row, Volumes -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/fourth_row">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/preb_label"
+            android:labelFor="@+id/preb_picker"
+            android:text="@string/preb_label"
+            android:layout_gravity="center_vertical"
+            />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/preb_picker"
+            android:inputType="numberDecimal"
+            android:gravity="right"
+            android:layout_gravity="right"
+            />
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/preb_vol_spinner"
+            android:spinnerMode="dialog"
+            android:layout_weight="1"/>
+   <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:id="@+id/fifth_row">-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/postb_label"
+            android:labelFor="@+id/postb_picker"
+            android:text="@string/postb_label"
+            android:layout_gravity="center_vertical"
+            />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/postb_picker"
+            android:inputType="numberDecimal"
+            android:gravity="right"
+            android:layout_gravity="right"
+            />
+    </LinearLayout>
+
+    <!-- Malt Table Goes in here -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="20"
+        android:orientation="vertical"
+        android:id="@+id/malt_table_wrapper"
+
+        >
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/abc_ab_bottom_solid_light_holo"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:id="@+id/name_malt_header"
+                android:text="Name"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="15"
+                android:layout_gravity="right"
+                android:id="@+id/weight_malt_header"
+                android:gravity="right"
+                android:text="Weight" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:layout_gravity="right"
+                android:id="@+id/unit" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="15"
+                android:layout_gravity="right"
+                android:id="@+id/pppg_malt_header"
+                android:gravity="right"
+                android:text="PPPG" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="15"
+                android:layout_gravity="right"
+                android:id="@+id/lov_malt_header"
+                android:gravity="right"
+                android:text="Lov" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:layout_gravity="right"
+                android:id="@+id/percentage_malt_header"
+                android:gravity="right"
+                android:text="%" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:id="@+id/malt_table"
+            android:background="@drawable/abc_cab_background_bottom_holo_light"
+            >
+       </LinearLayout>
+    </LinearLayout>
+
+    <!-- Hops'll go here -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="20"
+        android:orientation="vertical"
+        android:id="@+id/hops_table_content">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/abc_ab_bottom_solid_light_holo"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/name_header"
+                android:text="Name"
+                android:layout_weight="50"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/weight_header"
+                android:text="Weight"
+                android:layout_weight="15"
+                android:layout_gravity="right"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/unit_header"
+                android:layout_weight="10"
+                android:gravity="right"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/ibu_header"
+                android:text="IBU"
+                android:layout_weight="15"
+                android:gravity="right"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:id="@+id/addition_header"
+                android:text="Time"
+                android:gravity="right"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:id="@+id/hops_table"
+            android:background="@drawable/abc_cab_background_bottom_holo_light"
+            >
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

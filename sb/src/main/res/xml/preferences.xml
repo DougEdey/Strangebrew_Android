@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Cloud Details"
+        android:key="cloud_details">
+
+        <EditTextPreference
+            android:key="cloud_url"
+            android:title="Cloud URL"
+            android:summary="Define the StrangeBrew Cloud URL"
+            android:dialogTitle="Cloud URL"
+            android:dialogMessage="Provide a Cloud URL"
+            android:defaultValue="http://strangebrewcloud.appspot.com" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

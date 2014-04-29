@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">StrangeBrew</string>
+    <string name="title_recipe_detail">Recipe Detail</string>
+    <string name="title_label">Title</string>
+    <string name="eff_label">Eff:</string>
+    <string name="att_label">Att:</string>
+    <string name="og_label">OG:</string>
+    <string name="fg_label">FG:</string>
+    <string name="preb_label">Pre Boil:</string>
+    <string name="postb_label">Post Boil:</string>
+</resources>

@@ -11,6 +11,7 @@ import com.dougedey.strangebrew.R;
 
 import java.util.List;
 
+import ca.strangebrew.Debug;
 import ca.strangebrew.Fermentable;
 import ca.strangebrew.SBStringUtils;
 
@@ -39,11 +40,18 @@ public class ListAdapter extends ArrayAdapter<BasicRecipe> {
         TextView textView = (TextView) rowView.findViewById(R.id.c_r_name);
         textView.setText((CharSequence) r.title);
 
-        textView = (TextView) rowView.findViewById(R.id.c_r_style);
-        textView.setText(r.style);
-
-        textView = (TextView) rowView.findViewById(R.id.c_r_brewer);
-        textView.setText(r.brewer);
+        TextView styleView = (TextView) rowView.findViewById(R.id.c_r_style);
+        TextView brewerView = (TextView) rowView.findViewById(R.id.c_r_brewer);
+        if (r.search.equalsIgnoreCase("style")) {
+            styleView.setVisibility(View.GONE);
+            brewerView.setVisibility(View.VISIBLE);
+        } else {
+            styleView.setVisibility(View.VISIBLE);
+            brewerView.setVisibility(View.GONE);
+        }
+        Debug.print("Style " + r.style + " Brewer " + r.brewer);
+        styleView.setText(r.style);
+        brewerView.setText(r.brewer);
 
         return rowView;
     }

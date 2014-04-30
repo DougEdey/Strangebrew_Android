@@ -5,6 +5,7 @@ import android.os.Environment;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class Content {
         ITEM_MAP.put(id_s, r);
     }
 
-    public static class RecipeItem {
+    public static class RecipeItem implements Comparable<RecipeItem> {
         public String file;
         public String name;
         public String id;
@@ -55,6 +56,21 @@ public class Content {
             this.file = file;
             this.name = name;
             this.color = color;
+        }
+
+        @Override
+        public int compareTo(RecipeItem recipe) {
+            if (this.name.equals("Download Recipe")) {
+                return -1;
+            }
+            if (recipe.name.equalsIgnoreCase("Download Recipe")) {
+                return 1;
+            }
+
+            if (recipe.name.equalsIgnoreCase(this.name)) {
+                return this.color.compareTo(recipe.color);
+            }
+            return this.name.compareTo(recipe.name);
         }
     }
 }

@@ -12,14 +12,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/cloud_selectors">
         <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/cloud_brewer"
             android:layout_gravity="right"
             android:layout_weight="50"
+            android:spinnerMode="dialog"
             />
         <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:spinnerMode="dialog"
             android:layout_height="wrap_content"
             android:id="@+id/cloud_style"
             android:layout_weight="50"

@@ -22,9 +22,7 @@ public class Debug {
 	
 	
 	public static void print(Object msg){
-		if (DEBUG){
-			Log.i("SB logger", msg.toString());
-		}
+    	Log.i("SB logger", msg.toString());
 	}
 
 }

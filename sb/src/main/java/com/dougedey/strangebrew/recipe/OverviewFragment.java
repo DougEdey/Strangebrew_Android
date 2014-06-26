@@ -59,7 +59,7 @@ public class OverviewFragment extends Fragment {
             RECIPE = this.getRecipe();
         }
 
-        rootView = updateView(rootView);
+        rootView = updateView(rootView, "");
 
         Spinner yeastSpin = (Spinner) rootView.findViewById(R.id.yeast_spinner);
         if (yeastSpin.getOnItemSelectedListener() != yeastChangedListener)
@@ -90,7 +90,7 @@ public class OverviewFragment extends Fragment {
         return rootView;
     }
 
-    public View updateView(View rootView) {
+    public View updateView(View rootView, String position) {
 
         if (rootView == null) {
             rootView = getView();
@@ -123,15 +123,22 @@ public class OverviewFragment extends Fragment {
         EditText og = (EditText) rootView.findViewById(R.id.og_picker);
         DecimalFormat three_df = new DecimalFormat("#.###");
         String tDouble = three_df.format(RECIPE.getEstOg());
-        if (!tDouble.equals(og.getText()))
-            og.setText(tDouble);
-        og.addTextChangedListener(ogChanged);
 
-        og = (EditText) rootView.findViewById(R.id.fg_picker);
-        tDouble = three_df.format(RECIPE.getEstFg());
+        if (!position.equalsIgnoreCase("og")) {
+            if (!tDouble.equals(og.getText())) {
+                og.setText(tDouble);
+            }
+            og.addTextChangedListener(ogChanged);
+        }
 
-        if (!tDouble.equals(og.getText()))
-            og.setText(tDouble);
+        if (!position.equalsIgnoreCase("fg")) {
+            og = (EditText) rootView.findViewById(R.id.fg_picker);
+            tDouble = three_df.format(RECIPE.getEstFg());
+
+            if (!tDouble.equals(og.getText())) {
+                og.setText(tDouble);
+            }
+        }
 
         og.addTextChangedListener(fgChanged);
 
@@ -174,7 +181,7 @@ public class OverviewFragment extends Fragment {
             } catch (NumberFormatException nfe) {
                 return;
             }
-            updateView(null);
+            updateView(null, "og");
         }
         public void beforeTextChanged(CharSequence s, int start, int count, int after){}
         public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -188,7 +195,7 @@ public class OverviewFragment extends Fragment {
             } catch (NumberFormatException nfe) {
                 return;
             }
-            updateView(null);
+            updateView(null, "fg");
         }
         public void beforeTextChanged(CharSequence s, int start, int count, int after){}
         public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -210,7 +217,7 @@ public class OverviewFragment extends Fragment {
             } catch (NumberFormatException nfe) {
                 return;
             }
-            updateView(null);
+            updateView(null, "preb");
         }
         public void beforeTextChanged(CharSequence s, int start, int count, int after){}
         public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -231,7 +238,7 @@ public class OverviewFragment extends Fragment {
             } catch (NumberFormatException nfe) {
                 return;
             }
-            updateView(null);
+            updateView(null, "postb");
         }
         public void beforeTextChanged(CharSequence s, int start, int count, int after){}
         public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -253,7 +260,7 @@ public class OverviewFragment extends Fragment {
             } catch (NumberFormatException nfe) {
                 return;
             }
-            updateView(null);
+            updateView(null, "eff");
         }
         public void beforeTextChanged(CharSequence s, int start, int count, int after){}
         public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -275,7 +282,7 @@ public class OverviewFragment extends Fragment {
             } catch (NumberFormatException nfe) {
                 return;
             }
-            updateView(null);
+            updateView(null, "att");
         }
         public void beforeTextChanged(CharSequence s, int start, int count, int after){}
         public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -300,7 +307,7 @@ public class OverviewFragment extends Fragment {
             String temp = spinner.getItemAtPosition(position).toString();
             if (!temp.equals(RECIPE.getVolUnits())) {
                 RECIPE.setVolUnits(temp);
-                updateView(null);
+                updateView(null, "wu");
             }
 
             return;
@@ -327,7 +334,7 @@ public class OverviewFragment extends Fragment {
             String temp = spinner.getItemAtPosition(position).toString();
             if (!temp.equals(RECIPE.getYeast())) {
                 RECIPE.setYeast(temp);
-                updateView(null);
+                updateView(null, "yeast");
             }
 
             return;
@@ -353,7 +360,7 @@ public class OverviewFragment extends Fragment {
             String temp = spinner.getItemAtPosition(position).toString();
             if (!temp.equals(RECIPE.getStyle())) {
                 RECIPE.setStyle(temp);
-                updateView(null);
+                updateView(null, "style");
             }
             return;
         }

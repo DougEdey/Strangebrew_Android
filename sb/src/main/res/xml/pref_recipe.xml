@@ -1,0 +1,64 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+         dismiss it. -->
+    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+    <EditTextPreference
+        android:key="optEfficiency"
+        android:title="@string/pref_title_default_eff"
+        android:inputType="numberDecimal"
+        android:selectAllOnFocus="true"
+        android:maxLines="1"
+        />
+
+    <EditTextPreference
+        android:key="optAttenuation"
+        android:title="@string/pref_title_default_att"
+        android:inputType="numberDecimal"
+        android:selectAllOnFocus="true"
+        android:maxLines="1"
+        />
+
+    <EditTextPreference
+        android:key="optPostBoilVol"
+        android:title="@string/pref_title_default_postb"
+        android:inputType="numberDecimal"
+        android:selectAllOnFocus="true"
+        android:maxLines="1"
+        />
+    <ListPreference
+        android:key="optSizeU"
+        android:title="@string/pref_title_recipe_vol_units"
+        android:entries="@array/pref_vol_units"
+        android:entryValues="@array/pref_vol_units"
+        android:defaultValue="US Gallons"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+    <ListPreference
+        android:key="optMaltU"
+        android:title="@string/pref_title_recipe_malt_weight_units"
+        android:entries="@array/pref_weight_units"
+        android:entryValues="@array/pref_weight_units"
+        android:defaultValue="Pounds"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+    <ListPreference
+        android:key="optHopsU"
+        android:title="@string/pref_title_recipe_hop_weight_units"
+        android:entries="@array/pref_weight_units"
+        android:entryValues="@array/pref_weight_units"
+        android:defaultValue="Ounces"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+    <ListPreference
+        android:key="optHopsType"
+        android:title="@string/pref_title_default_hop"
+        android:entries="@array/pref_hop_type"
+        android:entryValues="@array/pref_hop_type"
+        android:defaultValue="Pellet"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+</PreferenceScreen>

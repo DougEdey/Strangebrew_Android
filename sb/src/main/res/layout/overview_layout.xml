@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="2dp"
+    android:paddingLeft="2dp">
+
+        <!-- Second Row: Style, Yeast -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/second_row">
+    <Spinner
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/style_spinner"
+        android:spinnerMode="dialog"
+        android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/second_half_row">
+
+    <Spinner
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/yeast_spinner"
+        android:spinnerMode="dialog"
+        android:layout_weight="1"/>
+    </LinearLayout>
+
+        <!-- Third Row: OG, FG, Efficiency, Attenuation -->
+    <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/third_row">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/og_label"
+            android:text="@string/og_label"
+            android:gravity="left"
+            android:layout_gravity="center_vertical"
+            />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/og_picker"
+            android:inputType="numberDecimal"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fg_label"
+            android:text="@string/fg_label"
+            android:gravity="left"
+            android:layout_gravity="center_vertical"
+
+            />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/fg_picker"
+            android:inputType="numberDecimal"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/third_half_row">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/eff_label"
+        android:text="@string/eff_label"
+        android:layout_gravity="center_vertical"
+        />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/eff_picker"
+        android:inputType="numberDecimal"
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:layout_weight="1"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/att_label"
+        android:text="@string/att_label"
+        android:layout_gravity="center_vertical"
+        />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/att_picker"
+        android:inputType="numberDecimal"
+        android:gravity="right"
+        android:layout_gravity="right"
+        />
+
+    </LinearLayout>
+
+        <!-- Fourth row, Volumes -->
+    <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/fourth_row">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/preb_label"
+        android:text="@string/preb_label"
+        android:layout_gravity="center_vertical"
+        />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/preb_picker"
+        android:inputType="numberDecimal"
+        android:gravity="right"
+        android:layout_gravity="right"
+        />
+
+    <Spinner
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:id="@+id/preb_vol_spinner"
+        android:spinnerMode="dialog"
+        android:layout_weight="1"/>
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:id="@+id/fifth_row">-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/fourth_half_row">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/postb_label"
+        android:text="@string/postb_label"
+        android:layout_gravity="center_vertical"
+        />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/postb_picker"
+        android:inputType="numberDecimal"
+        android:gravity="right"
+        android:layout_gravity="right"
+        />
+    </LinearLayout>
+</LinearLayout>

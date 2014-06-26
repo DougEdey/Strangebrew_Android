@@ -1,0 +1,50 @@
+<resources>
+        <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_display_name">Brewer name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_email">Email</string>
+    <string name="pref_default_email"></string>
+
+    <string name="pref_title_cloud_url">Cloud URL</string>
+    <string name="pref_default_cloud_url">http://strangebrewcloud.appspot.com</string>
+
+    <!-- Default Recipe Settings -->
+    <string name="pref_header_recipe">Recipe</string>
+    <string name="pref_title_recipe_vol_units">Recipe Volume Units</string>
+    <string-array name="pref_vol_units">
+        <item>Litres</item>
+        <item>Gallons US</item>
+        <item>Gallons IMP</item>
+        <item>Barrel US</item>
+        <item>Barrel IMP</item>
+    </string-array>
+
+    <string name="pref_title_recipe_malt_weight_units">Malt Weight Units</string>
+    <string name="pref_title_recipe_hop_weight_units">Hop Weight Units</string>
+    <string-array name="pref_weight_units">
+        <item>Kilograms</item>
+        <item>Pounds</item>
+        <item>Ounces</item>
+        <item>Grams</item>
+    </string-array>
+
+    <string name="pref_title_default_hop">Default Hop Type</string>
+    <string-array name="pref_hop_type">
+        <item>Leaf</item>
+        <item>Pellet</item>
+        <item>Plug</item>
+    </string-array>
+
+    <string name="pref_title_default_preb">Default Pre-Boil Volume</string>
+    <string name="pref_title_default_postb">Default Post-Boil Volume</string>
+    <string name="pref_title_default_eff">Default Efficiency</string>
+    <string name="pref_title_default_att">Default Attenuation</string>
+
+</resources>

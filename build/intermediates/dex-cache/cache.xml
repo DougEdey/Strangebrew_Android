@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/home/doug/AndroidStudioProjects/StrangeBrew/sb/build/intermediates/pre-dexed/debug/classes-2b6f141cd4544a704ba19e67ddce73359a5a30e0.jar"
+        jar="/home/doug/AndroidStudioProjects/StrangeBrew/build/intermediates/exploded-aar/com.android.support/gridlayout-v7/18.0.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="dafab6ae358e6c801605d50ff1fa761e77200c1a"/>
+    <item
+        dex="/home/doug/AndroidStudioProjects/StrangeBrew/sb/build/intermediates/pre-dexed/debug/support-v4-18.0.0-37ae03aec1d64b47acbd38ee9d2e16fa349df393.jar"
+        jar="/home/doug/Android/android-studio/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156"/>
+    <item
+        dex="/home/doug/AndroidStudioProjects/StrangeBrew/sb/build/intermediates/pre-dexed/debug/classes-cf6e03479374ec22d1db1d09c2c24c722adf32b8.jar"
+        jar="/home/doug/AndroidStudioProjects/StrangeBrew/build/intermediates/exploded-aar/com.android.support/appcompat-v7/18.0.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="8f11f56e350eacabf2273f646d981356eea0ed77"/>
+
+</pre-dex-items>

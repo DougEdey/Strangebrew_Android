@@ -30,12 +30,16 @@ public class Content {
         Content.ITEM_MAP.clear();
         Content.ITEMS.clear();
     }
-    public static void addRecipe(String name, String file, Double colour) {
+    public static RecipeItem addRecipe(String name, String file, Double colour) {
 
         if (ITEMS.size() == 0) {
             RecipeItem r = new RecipeItem("0", "Download Recipe", "", 0.0);
             ITEMS.add(r);
             ITEM_MAP.put("0", r);
+
+            r = new RecipeItem("1", "Create Recipe", "", 0.0);
+            ITEMS.add(r);
+            ITEM_MAP.put("1", r);
         }
 
         int id = ITEMS.size();
@@ -43,6 +47,8 @@ public class Content {
         RecipeItem r = new RecipeItem(id_s, name, file, colour);
         ITEMS.add(r);
         ITEM_MAP.put(id_s, r);
+
+        return r;
     }
 
     public static class RecipeItem implements Comparable<RecipeItem> {
@@ -60,16 +66,19 @@ public class Content {
 
         @Override
         public int compareTo(RecipeItem recipe) {
-            if (this.name.equals("Download Recipe")) {
+            if (this.name.equals("Download Recipe")
+                    || this.name.equals("Create Recipe")) {
                 return -1;
             }
-            if (recipe.name.equalsIgnoreCase("Download Recipe")) {
+            if (recipe.name.equalsIgnoreCase("Download Recipe")
+                    || recipe.name.equalsIgnoreCase("Create Recipe")) {
                 return 1;
             }
 
             if (recipe.name.equalsIgnoreCase(this.name)) {
                 return this.color.compareTo(recipe.color);
             }
+
             return this.name.compareTo(recipe.name);
         }
     }

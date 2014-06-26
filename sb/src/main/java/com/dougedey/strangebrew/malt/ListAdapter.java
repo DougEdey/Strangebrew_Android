@@ -42,20 +42,24 @@ public class ListAdapter extends ArrayAdapter<Fermentable> {
         TextView textView = (TextView) rowView.findViewById(R.id.name);
         textView.setText((CharSequence) f.getName());
 
+        if (f.getName().equals(this.context.getString(R.string.new_string))) {
+            return rowView;
+        }
+
         textView = (TextView) rowView.findViewById(R.id.weight);
         textView.setText(SBStringUtils.format(f.getAmountAs(), 2));
 
         textView = (TextView) rowView.findViewById(R.id.unit);
         textView.setText(f.getUnitsAbrv());
 
-        textView = (TextView) rowView.findViewById(R.id.lov);
-        textView.setText(SBStringUtils.format(f.getLov(), 0));
-
+//        textView = (TextView) rowView.findViewById(R.id.lov);
+//        textView.setText(SBStringUtils.format(f.getLov(), 0));
+//
         textView = (TextView) rowView.findViewById(R.id.percentage);
         textView.setText(SBStringUtils.format(f.getPercent(), 0));
 
-        textView = (TextView) rowView.findViewById(R.id.pppg);
-        textView.setText(SBStringUtils.format(f.getPppg(), 3));
+        //textView = (TextView) rowView.findViewById(R.id.pppg);
+        //textView.setText(SBStringUtils.format(f.getPppg(), 3));
 
         return rowView;
     }

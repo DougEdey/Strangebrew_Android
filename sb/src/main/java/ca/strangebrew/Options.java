@@ -15,6 +15,10 @@ package ca.strangebrew;
  *
  */
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,6 +34,7 @@ public class Options {
 	//	declare global variables, set hard defaults			
 	private Properties props;
 	private String type;
+    private Context context = null;
 	
 	private String optionString[][] = { 
 			// calculations:
@@ -162,43 +167,40 @@ public class Options {
 	
 	// default constructor, create options for a recipe
 	private Options() {}
-	
-	public static Options getInstance() {
+
+
+    public static Options getInstance() {
+        return Options.getInstance(null);
+    }
+
+    public static Options getInstance(Context context) {
+
 		if (instance == null)
 		{
 			instance = new Options();
 
 			instance.type = "strangebrew";
 			Properties d = new Properties();
-			instance.setDefaults(d);
-			instance.props = new Properties(d);		
-			instance.loadProperties();
+			instance.props = new Properties(d);
+            instance.setDefaults(d);
+            instance.context = context;
+            instance.loadProperties();
 		}
+
+        if (instance.context == null) {
+            instance.context = context;
+            instance.loadProperties();
+        }
 		
 		return instance;			
 	}
-	
-	// constructor for other option types
-//	private Options(String t) {
-//		if (instance == null)
-//			instance = new
-//		type = t;
-//		Properties d = new Properties();
-//		setDefaults(d);
-//		props = new Properties(d);		
-//		loadProperties();
-//	}
-	
 
-	private void loadProperties() {		
-		try {	
-			
-			String path = SBStringUtils.getAppPath("ini");				
-			File inputFile = new File(path + type + ".ini");
-			if (inputFile.exists()){			
-				props.load(new FileInputStream(inputFile));
-				Debug.print(type + ".ini file read: " + inputFile.getAbsolutePath() +". Contents:");
-				Debug.print(props.toString());
+	private void loadProperties() {
+
+		try {
+            if (context != null) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                props.putAll(prefs.getAll());
 			}
 			
 		}
@@ -206,34 +208,7 @@ public class Options {
 			System.out.println(e);
 		}
 	}
-	
-	public void saveProperties() {
 
-		try{
-			String path = SBStringUtils.getAppPath("ini");
-			Debug.print("Storing props: " + path);
-			FileOutputStream out = new FileOutputStream(path + type +".ini");
-			Debug.print(props.toString());
-
-			props.store(out, "/* properties updated */");
-		}
-		catch (Exception e) {
-			System.out.println(e);
-		}
-	}
-
-	private void setDefaults(Properties d) {
-
-		if (type.equals("strangebrew")) {
-			
-			for (int i = 0; i<optionString.length; i++) {
-				d.put(optionString[i][0], optionString[i][1]);
-			}		
-			
-		} 
-
-	}
-	
 	// get methods:
 	public String getProperty(String key){
 			return props.getProperty(key);
@@ -345,5 +320,17 @@ public class Options {
 			props.setProperty("optLocaleCountry", l.getCountry());
 			props.setProperty("opsLocaleVariant", l.getVariant());
 		}
-	}	
+	}
+
+    private void setDefaults(Properties d) {
+
+        if (type.equals("strangebrew")) {
+
+            for (int i = 0; i<optionString.length; i++) {
+                d.put(optionString[i][0], optionString[i][1]);
+            }
+
+        }
+
+    }
 }

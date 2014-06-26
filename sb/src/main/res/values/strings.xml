@@ -2,6 +2,9 @@
 <resources>
 
     <string name="app_name">StrangeBrew</string>
+    <string name="title_overview">Overview</string>
+    <string name="title_malts">Malts</string>
+    <string name="title_hops">Hops</string>
     <string name="title_recipe_detail">Recipe Detail</string>
     <string name="title_label">Title</string>
     <string name="eff_label">Eff:</string>
@@ -10,4 +13,20 @@
     <string name="fg_label">FG:</string>
     <string name="preb_label">Pre Boil:</string>
     <string name="postb_label">Post Boil:</string>
+    <string name="overall_og_label">Estimated OG:</string>
+    <string name="current_ibu_label">IBU:</string>
+    <string name="addition_label">Minutes:</string>
+    <string name="alpha_label">Alpha:</string>
+    <string name="hop_save">Save</string>
+    <string name="hop_delete">Delete</string>
+    <string name="hop_add">Add</string>
+    <string name="hop_cancel">Cancel</string>
+    <string name="spinner_font_size">12</string>
+    <string name="malt_percent_label">Percentage</string>
+    <string name="pppg_label">PPPG:</string>
+    <string name="lov_label">Lov:</string>
+    <string name="new_string">New</string>
+    <string name="filename_prompt">Filename?</string>
+    <string name="action_save">Save</string>
+    <string name="action_settings">Settings</string>
 </resources>

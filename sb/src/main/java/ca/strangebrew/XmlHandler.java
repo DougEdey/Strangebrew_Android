@@ -42,7 +42,7 @@ public class XmlHandler extends DefaultHandler{
 	private Salt salt = null;
 	private WaterProfile water = null;
 	
-	private String currentList = null; //current List name
+	private String currentList = ""; //current List name
 	private String currentSubList = null;
 	private String currentElement = null; // current element name
 	private String importType = null; // the type of recipe we're importing

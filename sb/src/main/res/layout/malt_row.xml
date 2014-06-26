@@ -28,7 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="15"
         android:gravity="right"
-        android:textAlignment="viewEnd"
         android:id="@+id/pppg" />
 
     <TextView
@@ -36,7 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="15"
         android:gravity="right"
-        android:textAlignment="viewEnd"
         android:id="@+id/lov" />
 
     <TextView
@@ -44,7 +42,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="10"
         android:gravity="right"
-        android:textAlignment="viewEnd"
         android:id="@+id/percentage" />
 
 

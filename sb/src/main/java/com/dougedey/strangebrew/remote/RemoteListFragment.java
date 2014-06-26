@@ -163,7 +163,11 @@ public class RemoteListFragment extends android.support.v4.app.ListFragment {
         }
 
         Collections.sort(com.dougedey.strangebrew.recipe.Content.ITEMS);
-        getFragmentManager().findFragmentById(R.layout.activity_recipe_list).notify();
+        try {
+            //getFragmentManager().findFragmentById(R.layout.activity_recipe_list).notify();
+        } catch (NullPointerException npe) {
+            // DO NOTHING
+        }
     }
 
     public class RemoteRecipes extends AsyncTask<BasicRecipe, Integer, String> {

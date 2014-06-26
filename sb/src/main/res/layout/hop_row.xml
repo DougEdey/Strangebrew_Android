@@ -35,7 +35,6 @@
         android:id="@+id/ibu"
         android:layout_weight="15"
         android:gravity="right"
-        android:textAlignment="gravity"
         />
 
     <TextView
@@ -44,7 +43,6 @@
         android:layout_weight="10"
         android:id="@+id/addition"
         android:gravity="right"
-        android:textAlignment="gravity"
         />
 
 </LinearLayout>

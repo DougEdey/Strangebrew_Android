@@ -328,6 +328,11 @@ public class Database {
             int modified = res.getColumnIndex("Modified");
 
 			while (!res.isAfterLast()) {
+                if (res.getString(name).trim().equals("")) {
+                    res.moveToNext();
+                    continue;
+                }
+
 				f = new Fermentable();
 				//Item,Name,Yield,Lov,Cost,Stock,Units,Mash,Descr,Steep,Modified 
 				
@@ -1086,7 +1091,16 @@ public class Database {
 		// check the objects and seek specifically
 		int index = -1;
 		if(seek instanceof Fermentable) {
-			index = Collections.binarySearch(fermDB, (Fermentable)seek);
+            Comparator<Fermentable> c = new Comparator<Fermentable>()  {
+                public int compare(Fermentable h1, Fermentable h2){
+
+                    int result = h1.getName().compareToIgnoreCase(h2.getName());
+
+                    return result ;
+                }
+
+            };
+			index = Collections.binarySearch(fermDB, (Fermentable)seek, c);
 		} else if(seek instanceof Hop) {
 			Comparator<Hop> c = new Comparator<Hop>()  {
 				public int compare(Hop h1, Hop h2){

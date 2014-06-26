@@ -6,13 +6,7 @@
         android:title="Cloud Details"
         android:key="cloud_details">
 
-        <EditTextPreference
-            android:key="cloud_url"
-            android:title="Cloud URL"
-            android:summary="Define the StrangeBrew Cloud URL"
-            android:dialogTitle="Cloud URL"
-            android:dialogMessage="Provide a Cloud URL"
-            android:defaultValue="http://strangebrewcloud.appspot.com" />
+
 
     </PreferenceCategory>
 

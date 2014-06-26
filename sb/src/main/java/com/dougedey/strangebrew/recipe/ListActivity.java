@@ -5,9 +5,14 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.dougedey.strangebrew.R;
+import com.dougedey.strangebrew.SettingsActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,6 +23,7 @@ import java.util.Collections;
 
 import ca.strangebrew.Database;
 import ca.strangebrew.ImportXml;
+import ca.strangebrew.Options;
 import ca.strangebrew.Recipe;
 
 
@@ -48,6 +54,7 @@ public class ListActivity extends FragmentActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Options.getInstance(this.getBaseContext());
         this.loadRecipes();
 
         File dataDir = new File(Environment.getExternalStorageDirectory(), "StrangeBrew/Data/");
@@ -104,6 +111,39 @@ public class ListActivity extends FragmentActivity
             detailIntent.putExtra(DetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            // This ID represents the Home or Up button. In the case of this
+            // activity, the Up button is shown. Use NavUtils to allow users
+            // to navigate up one level in the application structure. For
+            // more details, see the Navigation pattern on Android Design:
+            //
+            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+            //
+            NavUtils.navigateUpTo(this, new Intent(this, ListActivity.class));
+            return true;
+        }
+
+        if (id == R.id.action_prefs) {
+            // In single-pane mode, simply start the detail activity
+            // for the selected item ID.
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void loadRecipes() {

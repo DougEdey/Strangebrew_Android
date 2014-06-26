@@ -37,6 +37,18 @@ public class Hop extends Ingredient implements Comparable<Ingredient> {
 		setUnits(Quantity.OZ); // oz
 	}
 
+    public Hop(Hop aHop) {
+        // Copy constructor
+        setName(aHop.getName());
+        setType(aHop.getType());
+        setAdd(aHop.getAdd());
+        setMinutes(aHop.getMinutes());
+        setAlpha(aHop.getAlpha());
+        setIBU(aHop.getIBU());
+        setAmount(aHop.getAmountAs());
+        setUnits(aHop.getUnits());
+    }
+
 	public Hop(String u, String t) {
 		setUnits(u);
 		setType(t);

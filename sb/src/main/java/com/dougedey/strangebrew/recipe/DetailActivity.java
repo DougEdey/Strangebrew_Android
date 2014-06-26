@@ -4,9 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.dougedey.strangebrew.R;
+import com.dougedey.strangebrew.SettingsActivity;
+
+import ca.strangebrew.Recipe;
 
 /**
  * An activity representing a single Recipe detail screen. This
@@ -17,7 +25,9 @@ import com.dougedey.strangebrew.R;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link DetailFragment}.
  */
-public class DetailActivity extends FragmentActivity {
+public class DetailActivity extends ActionBarActivity {
+
+    DetailFragment fragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +35,7 @@ public class DetailActivity extends FragmentActivity {
         setContentView(R.layout.activity_recipe_detail);
 
         // Show the Up button in the action bar.
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -43,12 +53,25 @@ public class DetailActivity extends FragmentActivity {
             Bundle arguments = new Bundle();
             arguments.putString(DetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(DetailFragment.ARG_ITEM_ID));
-            DetailFragment fragment = new DetailFragment();
+            fragment = new DetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.recipe_detail_container, fragment)
                     .commit();
         }
+    }
+
+    public View updateView(View rootView) {
+        rootView = fragment.updateView(rootView);
+        return rootView;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.recipe_actions, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -65,8 +88,26 @@ public class DetailActivity extends FragmentActivity {
             NavUtils.navigateUpTo(this, new Intent(this, ListActivity.class));
             return true;
         }
+
+        if (id == R.id.action_save) {
+            if (fragment != null) {
+                fragment.saveRecipe();
+            }
+        }
+
+        if (id == R.id.action_prefs) {
+            // In single-pane mode, simply start the detail activity
+            // for the selected item ID.
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
+    public Recipe getRecipe() {
+        return fragment.getRecipe();
+    }
 
 }

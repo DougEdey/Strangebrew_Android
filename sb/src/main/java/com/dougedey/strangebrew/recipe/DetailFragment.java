@@ -1,23 +1,32 @@
 package com.dougedey.strangebrew.recipe;
 
+import android.app.AlertDialog;
+import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.app.TabActivity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.dougedey.strangebrew.R;
-import com.dougedey.strangebrew.StyleListAdapter;
-import com.dougedey.strangebrew.YeastListAdapter    ;
-import com.dougedey.strangebrew.malt.ListFragment;
 import com.dougedey.strangebrew.remote.BasicRecipe;
 import com.dougedey.strangebrew.remote.RemoteListFragment;
 
@@ -26,23 +35,21 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import ca.strangebrew.Database;
 import ca.strangebrew.Debug;
-import ca.strangebrew.Fermentable;
-import ca.strangebrew.Hop;
 import ca.strangebrew.ImportXml;
-import ca.strangebrew.Quantity;
 import ca.strangebrew.Recipe;
 
 /**
@@ -68,6 +75,12 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
      */
     private Recipe recipe = null;
 
+    private CollectionPagerAdapter mCollectionPagerAdapter = null;
+
+    private View rootView = null;
+
+    public String ibuText = "";
+    private boolean autoEdit = true;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -75,15 +88,18 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
     public DetailFragment() {
     }
 
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
             mItem = Content.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            // Add a save button
+
         }
     }
 
@@ -91,7 +107,8 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        View rootView = null;
+        rootView = null;
+
 
         // Show the dummy content as text in a TextView.
         if (mItem != null && !mItem.file.equals("")) {
@@ -100,22 +117,36 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
             if (importXml.handler != null) {
                 recipe = importXml.handler.getRecipe();
                 recipe.calcFermentTotals();
-                recipe.calcHopsTotals();
                 recipe.calcMaltTotals();
+                recipe.calcHopsTotals();
                 recipe.calcPrimeSugar();
             }
             ((TextView) rootView.findViewById(R.id.title_text)).setText(recipe.getName());
             rootView = showRecipe(rootView);
-        } else if (mItem.file.equals("")) {
+        } else if (mItem.name.equals("Download Recipe")) {
             // Start the new activity for getting a recipe
             rootView = inflater.inflate(R.layout.cloud_recipes, container, false);
             startCloudDownloads();
+            return rootView;
+        } else if (mItem.name.equals("Create Recipe")) {
+            rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
+            recipe = new Recipe();
+            recipe.calcFermentTotals();
+            recipe.calcMaltTotals();
+            recipe.calcHopsTotals();
+            recipe.calcPrimeSugar();
+
+            ((TextView) rootView.findViewById(R.id.title_text)).setText(recipe.getName());
+            rootView = showRecipe(rootView);
         }
+
+
         return rootView;
     }
 
-    public View showRecipe(View rootView) {
+    public View updateView(View rootView) {
         // ABV
+        autoEdit = true;
         TextView abv_text = (TextView) rootView.findViewById(R.id.abv_text);
         DecimalFormat df = new DecimalFormat("#.##");
         String tDouble = df.format(recipe.getAlcohol());
@@ -124,97 +155,30 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
         // IBU
         TextView ibu_text = (TextView) rootView.findViewById(R.id.ibu_text);
         tDouble = df.format(recipe.getIbu());
-        ibu_text.setText(tDouble + " IBU");
+        ibuText = tDouble + " IBU";
+        ibu_text.setText(ibuText);
 
-        // Setup the style Dropdown
-        Spinner styleSpin = (Spinner) rootView.findViewById(R.id.style_spinner);
-
-        StyleListAdapter styleAdapter =
-            new StyleListAdapter(getActivity(), Database.getInstance().styleDB);
-
-        styleSpin.setAdapter(styleAdapter);
-        styleSpin.setSelection(styleAdapter.getPosition(recipe.getStyleObj()));
-
-        // Setup the Yeast Drop Down
-        Spinner yeastSpin = (Spinner) rootView.findViewById(R.id.yeast_spinner);
-
-        YeastListAdapter yeastAdapter =
-                new YeastListAdapter(getActivity(), Database.getInstance().yeastDB);
-
-        yeastSpin.setAdapter(yeastAdapter);
-        yeastSpin.setSelection(yeastAdapter.getPosition(recipe.getYeastObj()));
-
-        // Original Gravity
-        EditText og = (EditText) rootView.findViewById(R.id.og_picker);
-        DecimalFormat three_df = new DecimalFormat("#.###");
-        tDouble = three_df.format(recipe.getEstOg());
-        og.setText(tDouble);
-
-        og = (EditText) rootView.findViewById(R.id.fg_picker);
-        tDouble = three_df.format(recipe.getEstFg());
-        og.setText(tDouble);
-
-        og = (EditText) rootView.findViewById(R.id.eff_picker);
-        tDouble = df.format(recipe.getEfficiency());
-        og.setText(tDouble + "%");
-
-        og = (EditText) rootView.findViewById(R.id.att_picker);
-        tDouble = df.format(recipe.getAttenuation());
-        og.setText(tDouble + "%");
-
-
-        // Volumes
-        ArrayAdapter<String> volAdapter = new ArrayAdapter<String>(
-                getActivity(), android.R.layout.simple_expandable_list_item_1);
-        List<String> s = Quantity.getListofUnits("volume", true);
-        volAdapter.addAll(s);
-        Spinner volSpin = (Spinner) rootView.findViewById(R.id.preb_vol_spinner);
-        volSpin.setAdapter(volAdapter);
-        int pos = volAdapter.getPosition(Quantity.getVolAbrv(recipe.getVolUnits()));
-        volSpin.setSelection(pos);
-
-        /*
-        ArrayAdapter<String> postVolAdapter = new ArrayAdapter<String>(
-                 getActivity(), android.R.layout.simple_expandable_list_item_1);
-        postVolAdapter.addAll(s);
-        Spinner postVolSpin = (Spinner) rootView.findViewById(R.id.postb_vol_spinner);
-        postVolSpin.setAdapter(postVolAdapter);
-        pos = postVolAdapter.getPosition(Quantity.getVolAbrv(recipe.getVolUnits()));
-        postVolSpin.setSelection(pos);
-        */
-
-        og = (EditText) rootView.findViewById(R.id.preb_picker);
-        tDouble = df.format(recipe.getPreBoilVol());
-        og.setText(tDouble);
-
-        og = (EditText) rootView.findViewById(R.id.postb_picker);
-        tDouble = df.format(recipe.getFinalWortVol());
-        og.setText(tDouble);
-
-        // Build up the malt tables
-        LinearLayout maltLayout = (LinearLayout) rootView.findViewById(R.id.malt_table);
-        getFragmentManager().beginTransaction().add(R.id.malt_table, new ListFragment(), "malt_list").commit();
-
-        com.dougedey.strangebrew.malt.Content.ITEM_MAP.clear();
-        com.dougedey.strangebrew.malt.Content.ITEMS.clear();
-
-        for (int i = 0; i < recipe.getMaltListSize(); i++) {
-            Fermentable f = recipe.getFermentable(i);
-            com.dougedey.strangebrew.malt.Content.addMalt(f);
+        synchronized (rootView) {
+            rootView.notify();
         }
+        autoEdit = false;
+        return rootView;
+    }
 
-        // Build up the Hop Table
-        LinearLayout hopsLayout = (LinearLayout) rootView.findViewById(R.id.hops_table);
-        getFragmentManager().beginTransaction().add(R.id.hops_table, new com.dougedey.strangebrew.hops.ListFragment(), "hops_list").commit();
+    public View showRecipe(View rootView) {
 
-        com.dougedey.strangebrew.hops.Content.ITEM_MAP.clear();
-        com.dougedey.strangebrew.hops.Content.ITEMS.clear();
+        // Update the normal stuff
+        rootView = updateView(rootView);
+        autoEdit = true;
 
-        for (int i = 0; i < recipe.getHopsListSize(); i++) {
-            Hop h = recipe.getHop(i);
-            com.dougedey.strangebrew.hops.Content.addHop(h);
-        }
+        ViewPager mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
+        mCollectionPagerAdapter =
+                new CollectionPagerAdapter(
+                        getActivity().getSupportFragmentManager(), this.getActivity().getBaseContext());
+        mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
+        mViewPager.setAdapter(mCollectionPagerAdapter);
 
+        autoEdit = false;
         return rootView;
     }
 
@@ -232,9 +196,13 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
     public void styleListDownloaded(ArrayList<Object> inList) {
         ArrayList<String> styleList = new ArrayList<String>();
         for (Object o: inList) {
-            styleList.add((String) o);
+            String s = (String) o;
+            if (!s.trim().equals("")) {
+                styleList.add(s);
+            }
         }
         Collections.sort(styleList);
+        styleList.add(0, "Styles");
         View rootView = this.getView();
         if (styleList != null) {
             Spinner spinner = (Spinner) rootView.findViewById(R.id.cloud_style);
@@ -248,10 +216,15 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
 
     public void brewersListDownloaded(ArrayList<Object> inList) {
         ArrayList<String> brewerList = new ArrayList<String>();
+
         for (Object o: inList) {
-            brewerList.add((String) o);
+            String s = (String) o;
+            if (!s.trim().equals("")) {
+                brewerList.add(s);
+            }
         }
         Collections.sort(brewerList);
+        brewerList.add(0, "Brewers");
         View rootView = this.getView();
         if (brewerList != null) {
             Spinner spinner = (Spinner) rootView.findViewById(R.id.cloud_brewer);
@@ -301,7 +274,7 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
 
         try {
             synchronized (f) {
-                f.notifyAll();
+                //f.notifyAll();
             }
         } catch (NullPointerException npe) {
             Debug.print(npe);
@@ -316,6 +289,9 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
         if (adapterView.getId() == R.id.cloud_brewer) {
             Spinner spinner = (Spinner) adapterView;
             String brewer = (String) spinner.getSelectedItem();
+            if (brewer.equals("Brewers")) {
+                return;
+            }
             RemoteRecipes brewerTask = new RemoteRecipes();
             brewerTask.setActivity(this);
             brewerTask.execute("brewer", brewer);
@@ -324,6 +300,9 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
         if (adapterView.getId() == R.id.cloud_style) {
             Spinner spinner = (Spinner) adapterView;
             String style = (String) spinner.getSelectedItem();
+            if (style.equals("Styles")) {
+                return;
+            }
             RemoteRecipes styleTask = new RemoteRecipes();
             styleTask.setActivity(this);
             styleTask.execute("style", style);
@@ -562,7 +541,6 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
         public ArrayList<Object> getListOfStyles() {
 
             ArrayList<String> styleList = new ArrayList<String>();
-            styleList.add("");
             try
             {
                 URI rURI = new URI("http", null, cloudURL, 80, "/styles/", null, null);
@@ -614,7 +592,7 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
         public ArrayList<Object> getListOfBrewers() {
 
             ArrayList<String> brewerList = new ArrayList<String>();
-            brewerList.add("");
+
             try
             {
                 URI rURI = new URI("http", null, cloudURL, 80, "/brewer/", null, null);
@@ -661,5 +639,93 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
             }
             return retList;
         }
+    }
+
+    public void updateIBU() {
+        // IBU
+//        DetailFragment newFragment = this;
+//
+//        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//        TextView ibu_text = (TextView) rootView.findViewById(R.id.ibu_text);
+//        DecimalFormat df = new DecimalFormat("#.##");
+//        String tDouble = df.format(recipe.getIbu());
+//        ibu_text.setText(tDouble + " IBU");
+//        fragmentTransaction.replace(this.getId(), newFragment);
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
+//        getFragmentManager().executePendingTransactions();
+    }
+
+    public void saveRecipe() {
+        if (mItem == null) {
+            mItem = Content.addRecipe(recipe.getName(), "", recipe.getColour());
+        }
+
+        if (mItem.file.equals("")) {
+
+            // Prompt for a new filename or return
+            final EditText input = new EditText(rootView.getContext());
+
+            new AlertDialog.Builder(rootView.getContext())
+                    .setTitle(getResources().getString(R.string.filename_prompt))
+                    .setView(input)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            Editable value = input.getText();
+                            String newFile = value.toString().trim();
+
+                            // Don't create a blank file name...
+                            if (newFile.length() == 0) {
+                                return;
+                            }
+
+                            // Make sure we append with an extension
+                            if (!newFile.endsWith(".xml")) {
+                                newFile = newFile + ".xml";
+                            }
+
+                            mItem.file = Environment.getExternalStorageDirectory() +
+                                    "/StrangeBrew/Recipes/" + newFile;
+                            saveFile();
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // Do nothing.
+                    return;
+                }
+            }).show();
+
+        } else {
+            saveFile();
+        }
+
+
+    }
+
+    public void saveFile() {
+        // Should have a filename now, get saving
+        File outputFile = new File(mItem.file);
+
+        try {
+            FileWriter outWrite = new FileWriter(outputFile);
+            outWrite.write(recipe.toXML("<Android />"));
+            outWrite.flush();
+            outWrite.close();
+
+        } catch (IOException ioe) {
+            // Couldn't write the file.
+            new AlertDialog.Builder(rootView.getContext())
+                    .setTitle(getResources().getString(R.string.filename_prompt))
+                    .setMessage("Couldn't write to file " + outputFile.getAbsolutePath())
+                    .show();
+
+            return;
+        }
+
+        new AlertDialog.Builder(rootView.getContext())
+                .setTitle(getResources().getString(R.string.filename_prompt))
+                .setMessage("Saved recipe to: " + outputFile.getAbsolutePath())
+                .show();
+
     }
 }

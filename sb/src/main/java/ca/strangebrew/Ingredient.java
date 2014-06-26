@@ -42,7 +42,7 @@ public class Ingredient implements Comparable<Ingredient> {
 	                                                                                                                                 
 	    /* Make sure references are of same type */                                                     
 	                                                                                                                                 
-	    if(!(getClass() == obj.getClass()))                                                             
+	    if(!(this.getClass() == obj.getClass()))
 	    return false;                                                                                   
 	    else                                                                                            
 	    {                                                                                                                            
@@ -111,9 +111,19 @@ public class Ingredient implements Comparable<Ingredient> {
 		amount.setAmount(dAmount);
 		amount.setUnits(u.trim());
 	}
-	public void setAmountAs(double a, String u) {
-		double converted = Quantity.convertUnit(u, amount.getUnits(), a);
-		amount.setAmount(converted);
+
+    public void setAmountAs(String amount, String unit) {
+        try {
+            double a = Double.parseDouble(amount);
+            setAmountAs(a, unit);
+        } catch (NumberFormatException nfe) {
+            return;
+        }
+    }
+
+	public void setAmountAs(double amount, String unit) {
+		double converted = Quantity.convertUnit(unit, this.amount.getUnits(), amount);
+		this.amount.setAmount(converted);
 	}
 	public void setCost(double c){ costPerU = c; }
 	public void setCost(String c){

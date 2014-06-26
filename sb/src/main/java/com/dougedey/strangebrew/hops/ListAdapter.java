@@ -41,6 +41,10 @@ public class ListAdapter extends ArrayAdapter<Hop> {
         TextView textView = (TextView) rowView.findViewById(R.id.name);
         textView.setText((CharSequence) h.getName());
 
+        if (h.getName().equals(this.context.getString(R.string.new_string))) {
+            return rowView;
+        }
+
         textView = (TextView) rowView.findViewById(R.id.weight);
         textView.setText(SBStringUtils.format(h.getAmountAs(), 2));
 
@@ -55,4 +59,5 @@ public class ListAdapter extends ArrayAdapter<Hop> {
 
         return rowView;
     }
+
 }

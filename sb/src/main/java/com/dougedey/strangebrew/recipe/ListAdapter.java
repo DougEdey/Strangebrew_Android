@@ -13,6 +13,7 @@ import com.dougedey.strangebrew.R;
 import java.util.List;
 
 import ca.strangebrew.BrewCalcs;
+import ca.strangebrew.Options;
 
 /**
  * Created by doug on 15/04/14.
@@ -25,6 +26,8 @@ public class ListAdapter extends ArrayAdapter<Content.RecipeItem> {
         super(context, R.layout.rowlayout, values);
         this.context = context;
         this.values = values;
+        // Force the creation of the options singleton
+        Options.getInstance(this.getContext());
     }
 
     @Override

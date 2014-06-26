@@ -24,6 +24,8 @@
 
 package ca.strangebrew;
 
+import android.content.Context;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
@@ -692,6 +694,16 @@ public class Recipe {
 		isDirty = true;
 		yeast = y;
 	}
+
+    public void setYeast(final String y) {
+        isDirty = true;
+        Yeast yeast = new Yeast();
+        yeast.setName(y);
+        int i = Database.getInstance().find(yeast);
+        if (i > -1) {
+            this.yeast = Database.getInstance().yeastDB.get(i);
+        }
+    }
 
 	public void setVersion(final String v) {
 		isDirty = true;
@@ -1406,14 +1418,22 @@ public class Recipe {
 			totalMaltCost += m.getCostPerU() * m.getAmountAs(m.getUnits());
 		}
 
-		// set the fields in the object
-		estOg = (maltPoints / 100) + 1;
-		estFermOg = (fermentingMaltPoints/100) + 1;
-		
-		double attGrav = (estFermOg - 1) * (getAttenuation() / 100);
-		
-		// FG
-		estFg = estOg - attGrav;
+
+        // set the fields in the object
+        double effFactor = (efficiency / 100);
+        estOg = (maltPoints / 100) + 1;
+        // rounding
+        estOg = Math.floor(estOg*1000)/1000;
+
+        estFermOg = (fermentingMaltPoints/100) + 1;
+        estFermOg = Math.floor(estFermOg*1000)/1000;
+
+
+        double attGrav = (estFermOg - 1) * (attenuation / 100);
+
+        // FG
+        estFg = estOg - attGrav;
+
 		// mash.setMaltWeight(totalMashLbs);
 	}
 
@@ -1461,6 +1481,7 @@ public class Recipe {
 				h.setIBU(BrewCalcs.CalcGaretz(h.getAmountAs(Quantity.OZ), getPostBoilVol(Quantity.GAL), aveOg, time,
 						getPreBoilVol(Quantity.GAL), 1, h.getAlpha()));
 			}
+            Debug.print("Hop type: " + h.getType());
 			if (h.getType().equalsIgnoreCase(Hop.PELLET)) {
 				h.setIBU(h.getIBU() * (1.0 + (getPelletHopPct() / 100)));
 			}

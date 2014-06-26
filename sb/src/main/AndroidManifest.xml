@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dougedey.strangebrew" >
 
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="17" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -18,13 +22,14 @@
         </activity>
         <activity
             android:name=".recipe.DetailActivity"
-            android:label="@string/title_recipe_detail"
-            android:parentActivityName=".recipe.ListActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dougedey.strangebrew.RecipeListActivity" />
+            android:label="@string/title_recipe_detail" >
+        </activity>
+        <activity
+            android:name="SettingsActivity"
+            android:label="@string/title_activity_settings" >
         </activity>
     </application>
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 

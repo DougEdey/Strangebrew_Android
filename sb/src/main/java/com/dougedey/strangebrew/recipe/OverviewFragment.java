@@ -120,11 +120,14 @@ public class OverviewFragment extends Fragment {
         yeastSpin.setSelection(yeastAdapter.getPosition(RECIPE.getYeastObj()));
 
         // Original Gravity
-        EditText og = (EditText) rootView.findViewById(R.id.og_picker);
+        EditText og = null;
         DecimalFormat three_df = new DecimalFormat("#.###");
-        String tDouble = three_df.format(RECIPE.getEstOg());
+        String tDouble  = null;
 
         if (!position.equalsIgnoreCase("og")) {
+            og = (EditText) rootView.findViewById(R.id.og_picker);
+            tDouble = three_df.format(RECIPE.getEstOg());
+
             if (!tDouble.equals(og.getText())) {
                 og.setText(tDouble);
             }
@@ -138,33 +141,41 @@ public class OverviewFragment extends Fragment {
             if (!tDouble.equals(og.getText())) {
                 og.setText(tDouble);
             }
+            og.addTextChangedListener(fgChanged);
         }
 
-        og.addTextChangedListener(fgChanged);
 
-        og = (EditText) rootView.findViewById(R.id.eff_picker);
-        tDouble = df.format(RECIPE.getEfficiency()) + "%";
-        if (!tDouble.equals(og.getText()))
-            og.setText(tDouble);
-        og.addTextChangedListener(effChanged);
+        if (!position.equalsIgnoreCase("eff")) {
+            og = (EditText) rootView.findViewById(R.id.eff_picker);
+            tDouble = df.format(RECIPE.getEfficiency()) + "%";
+            if (!tDouble.equals(og.getText()))
+                og.setText(tDouble);
+            og.addTextChangedListener(effChanged);
+        }
 
-        og = (EditText) rootView.findViewById(R.id.att_picker);
-        tDouble = df.format(RECIPE.getAttenuation()) + "%";
-        if (!tDouble.equals(og.getText()))
-            og.setText(tDouble  );
-        og.addTextChangedListener(attChanged);
+        if (!position.equalsIgnoreCase("att")) {
+            og = (EditText) rootView.findViewById(R.id.att_picker);
+            tDouble = df.format(RECIPE.getAttenuation()) + "%";
+            if (!tDouble.equals(og.getText()))
+                og.setText(tDouble);
+            og.addTextChangedListener(attChanged);
+        }
 
-        og = (EditText) rootView.findViewById(R.id.preb_picker);
-        tDouble = df.format(RECIPE.getPreBoilVol());
-        if (!tDouble.equals(og.getText()))
-            og.setText(tDouble);
-        og.addTextChangedListener(preBoilChanged);
+        if (!position.equalsIgnoreCase("preb")) {
+            og = (EditText) rootView.findViewById(R.id.preb_picker);
+            tDouble = df.format(RECIPE.getPreBoilVol());
+            if (!tDouble.equals(og.getText()))
+                og.setText(tDouble);
+            og.addTextChangedListener(preBoilChanged);
+        }
 
-        og = (EditText) rootView.findViewById(R.id.postb_picker);
-        tDouble = df.format(RECIPE.getFinalWortVol());
-        if (!tDouble.equals(og.getText()))
-            og.setText(tDouble);
-        og.addTextChangedListener(postBoilChanged);
+        if (!position.equalsIgnoreCase("postb")) {
+            og = (EditText) rootView.findViewById(R.id.postb_picker);
+            tDouble = df.format(RECIPE.getFinalWortVol());
+            if (!tDouble.equals(og.getText()))
+                og.setText(tDouble);
+            og.addTextChangedListener(postBoilChanged);
+        }
 
         synchronized (rootView) {
             rootView.notify();

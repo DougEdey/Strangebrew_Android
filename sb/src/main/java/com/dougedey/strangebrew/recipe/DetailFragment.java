@@ -27,6 +27,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.dougedey.strangebrew.R;
+import com.dougedey.strangebrew.StyleListAdapter;
+import com.dougedey.strangebrew.YeastListAdapter;
 import com.dougedey.strangebrew.remote.BasicRecipe;
 import com.dougedey.strangebrew.remote.RemoteListFragment;
 
@@ -48,6 +50,7 @@ import java.util.Collections;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import ca.strangebrew.Database;
 import ca.strangebrew.Debug;
 import ca.strangebrew.ImportXml;
 import ca.strangebrew.Recipe;
@@ -144,8 +147,12 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
         return rootView;
     }
 
-    public View updateView(View rootView) {
+    public View updateView(View rootView, String position) {
         // ABV
+        if (rootView == null) {
+            rootView = this.getView();
+        }
+
         autoEdit = true;
         TextView abv_text = (TextView) rootView.findViewById(R.id.abv_text);
         DecimalFormat df = new DecimalFormat("#.##");
@@ -158,6 +165,14 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
         ibuText = tDouble + " IBU";
         ibu_text.setText(ibuText);
 
+        if (mCollectionPagerAdapter != null) {
+//            View rView = rootView.findViewWithTag("OVERVIEW");
+//            if (rView != null) {
+//                updateOverview(rView);
+//            }
+            mCollectionPagerAdapter.updateFragments(position);
+        }
+
         synchronized (rootView) {
             rootView.notify();
         }
@@ -165,10 +180,84 @@ public class DetailFragment extends Fragment implements AdapterView.OnItemSelect
         return rootView;
     }
 
+    public void updateOverview(View rootView) {
+        autoEdit = true;
+        DecimalFormat df = new DecimalFormat("#.##");
+        // Setup the style Dropdown
+        Spinner styleSpin = (Spinner) rootView.findViewById(R.id.style_spinner);
+
+        StyleListAdapter styleAdapter =
+                new StyleListAdapter(getActivity(), Database.getInstance().styleDB);
+
+        if (styleSpin.getAdapter() == null) {
+            styleSpin.setAdapter(styleAdapter);
+        }
+        styleSpin.setSelection(styleAdapter.getPosition(recipe.getStyleObj()));
+
+        // Setup the Yeast Drop Down
+        Spinner yeastSpin = (Spinner) rootView.findViewById(R.id.yeast_spinner);
+
+        YeastListAdapter yeastAdapter =
+                new YeastListAdapter(getActivity(), Database.getInstance().yeastDB);
+
+        if (yeastSpin.getAdapter() == null) {
+            yeastSpin.setAdapter(yeastAdapter);
+        }
+
+        yeastSpin.setSelection(yeastAdapter.getPosition(recipe.getYeastObj()));
+
+        // Original Gravity
+        EditText og = null;
+        DecimalFormat three_df = new DecimalFormat("#.###");
+        String tDouble = null;
+
+        og = (EditText) rootView.findViewById(R.id.og_picker);
+        tDouble = three_df.format(recipe.getEstOg());
+
+        if (!tDouble.equals(og.getText())) {
+
+            og.setText(tDouble);
+        }
+
+
+        og = (EditText) rootView.findViewById(R.id.fg_picker);
+        tDouble = three_df.format(recipe.getEstFg());
+
+        if (!tDouble.equals(og.getText())) {
+            og.setText(tDouble);
+        }
+
+        og = (EditText) rootView.findViewById(R.id.eff_picker);
+        tDouble = df.format(recipe.getEfficiency()) + "%";
+        if (!tDouble.equals(og.getText())) {
+            og.setText(tDouble);
+        }
+
+        og = (EditText) rootView.findViewById(R.id.att_picker);
+        tDouble = df.format(recipe.getAttenuation()) + "%";
+        if (!tDouble.equals(og.getText()))
+            og.setText(tDouble);
+
+        og = (EditText) rootView.findViewById(R.id.preb_picker);
+        tDouble = df.format(recipe.getPreBoilVol());
+        if (!tDouble.equals(og.getText()))
+            og.setText(tDouble);
+
+        og = (EditText) rootView.findViewById(R.id.postb_picker);
+        tDouble = df.format(recipe.getFinalWortVol());
+        if (!tDouble.equals(og.getText()))
+            og.setText(tDouble);
+
+        synchronized (rootView) {
+            rootView.notify();
+        }
+        autoEdit = false;
+    }
+
     public View showRecipe(View rootView) {
 
         // Update the normal stuff
-        rootView = updateView(rootView);
+        rootView = updateView(rootView, "");
         autoEdit = true;
 
         ViewPager mViewPager = (ViewPager) rootView.findViewById(R.id.pager);

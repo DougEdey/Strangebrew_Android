@@ -51,13 +51,13 @@ public class MaltFragment extends Fragment {
 
     public View updateView(View rootView) {
 
-        if (rootView == null) {
-            rootView = getView();
-        }
 
         DetailActivity dActivity = (DetailActivity) this.getActivity();
-        dActivity.updateView(null);
-
+        if (rootView == null) {
+            dActivity.updateView(null, "");
+        } else {
+            dActivity.updateView(null, "MALT");
+        }
         return rootView;
     }
 

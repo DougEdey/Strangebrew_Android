@@ -6,8 +6,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import com.dougedey.strangebrew.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import ca.strangebrew.Recipe;
 
@@ -24,6 +29,8 @@ public class CollectionPagerAdapter extends FragmentPagerAdapter {
         super(fm);
         this.resources = context.getResources();
     }
+
+    private HashMap<Integer, Fragment> registeredFragments = new HashMap<Integer, Fragment>();
 
     public void setRecipe(Recipe r) {
         this.RECIPE = r;
@@ -67,6 +74,35 @@ public class CollectionPagerAdapter extends FragmentPagerAdapter {
                 return resources.getString(R.string.title_hops);
             default:
                 return "UNKNOWN " + position;
+        }
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        registeredFragments.put(position, fragment);
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        registeredFragments.remove(position);
+        super.destroyItem(container, position, object);
+    }
+
+    public void updateFragments(String position) {
+
+        Fragment f = this.registeredFragments.get(0);
+        if (f != null && !position.equals("OVERVIEW")) {
+            ((OverviewFragment) f).updateView(null, null);
+        }
+        f = this.registeredFragments.get(1);
+        if (f != null && !position.equals("MALT")) {
+            ((MaltFragment) f).updateView(null);
+        }
+        f = this.registeredFragments.get(2);
+        if (f != null && !position.equals("HOPS")) {
+            ((HopsFragment) f).updateView(null);
         }
     }
 }

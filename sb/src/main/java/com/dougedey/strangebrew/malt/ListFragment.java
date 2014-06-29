@@ -115,7 +115,7 @@ public class ListFragment extends android.support.v4.app.ListFragment {
 
         LayoutInflater layoutInflater = (LayoutInflater)getActivity().getBaseContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View popupView = layoutInflater.inflate(R.layout.malt_popup, null);
+        final View popupView = layoutInflater.inflate(R.layout.malt_popup, null);
 
         ((EditText)popupView.findViewById(R.id.malt_lov)).addTextChangedListener(new MaltLovChanged());
         ((EditText)popupView.findViewById(R.id.malt_weight_picker)).addTextChangedListener(new MaltWeightChanged());
@@ -132,6 +132,10 @@ public class ListFragment extends android.support.v4.app.ListFragment {
         popupWindow.setTouchInterceptor(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                if (popupWindow == null) {
+                    return false;
+                }
+
                 int[] position = new int[2];
                 View pView = popupWindow.getContentView();
                 pView.getLocationOnScreen(position);

@@ -1,5 +1,8 @@
 package com.dougedey.strangebrew.recipe;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -52,6 +55,7 @@ public class OverviewFragment extends Fragment {
         // properly.
         View rootView = inflater.inflate(
                 R.layout.overview_layout, container, false);
+        rootView.setTag("OVERVIEW");
         Bundle args = getArguments();
         try {
             RECIPE = (Recipe) args.get("RECIPE_OBJ");
@@ -99,6 +103,10 @@ public class OverviewFragment extends Fragment {
             return rootView;
         }
 
+        if (position == null) {
+            position = "";
+        }
+
         autoEdit = true;
         DecimalFormat df = new DecimalFormat("#.##");
         // Setup the style Dropdown
@@ -122,7 +130,7 @@ public class OverviewFragment extends Fragment {
         // Original Gravity
         EditText og = null;
         DecimalFormat three_df = new DecimalFormat("#.###");
-        String tDouble  = null;
+        String tDouble = null;
 
         if (!position.equalsIgnoreCase("og")) {
             og = (EditText) rootView.findViewById(R.id.og_picker);
@@ -194,8 +202,12 @@ public class OverviewFragment extends Fragment {
             }
             updateView(null, "og");
         }
-        public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-        public void onTextChanged(CharSequence s, int start, int before, int count){}
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
     }
 
     private class FgChanged implements TextWatcher {
@@ -208,8 +220,12 @@ public class OverviewFragment extends Fragment {
             }
             updateView(null, "fg");
         }
-        public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-        public void onTextChanged(CharSequence s, int start, int before, int count){}
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
     }
 
     private class PreBoilChanged implements TextWatcher {
@@ -230,8 +246,12 @@ public class OverviewFragment extends Fragment {
             }
             updateView(null, "preb");
         }
-        public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-        public void onTextChanged(CharSequence s, int start, int before, int count){}
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
     }
 
     private class PostBoilChanged implements TextWatcher {
@@ -251,8 +271,12 @@ public class OverviewFragment extends Fragment {
             }
             updateView(null, "postb");
         }
-        public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-        public void onTextChanged(CharSequence s, int start, int before, int count){}
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
     }
 
     private class EffChanged implements TextWatcher {
@@ -262,7 +286,7 @@ public class OverviewFragment extends Fragment {
                 String temp = s.toString();
 
                 // Remove the Percent
-                if (temp.indexOf('%') > -1 ) {
+                if (temp.indexOf('%') > -1) {
                     temp = temp.substring(0, temp.indexOf('%'));
                 }
 
@@ -273,8 +297,12 @@ public class OverviewFragment extends Fragment {
             }
             updateView(null, "eff");
         }
-        public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-        public void onTextChanged(CharSequence s, int start, int before, int count){}
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
     }
 
     private class AttChanged implements TextWatcher {
@@ -284,7 +312,7 @@ public class OverviewFragment extends Fragment {
                 String temp = s.toString();
 
                 // Remove the Percent
-                if (temp.indexOf('%') > -1 ) {
+                if (temp.indexOf('%') > -1) {
                     temp = temp.substring(0, temp.indexOf('%'));
                 }
 
@@ -295,8 +323,12 @@ public class OverviewFragment extends Fragment {
             }
             updateView(null, "att");
         }
-        public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-        public void onTextChanged(CharSequence s, int start, int before, int count){}
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
     }
 
     // Change the weight unit in the drop down
@@ -381,4 +413,9 @@ public class OverviewFragment extends Fragment {
         DetailActivity dActivity = (DetailActivity) this.getActivity();
         return dActivity.getRecipe();
     }
+
+//    @Override
+//    public void onReceive(Context context, Intent intent) {
+//        this.updateView(null, "");
+//    }
 }

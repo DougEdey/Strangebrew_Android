@@ -61,8 +61,15 @@ public class DetailActivity extends ActionBarActivity {
         }
     }
 
-    public View updateView(View rootView) {
-        rootView = fragment.updateView(rootView);
+    public View updateView(View rootView, String position) {
+        if (fragment == null) {
+            return rootView;
+        }
+
+        if (!position.equals("")) {
+            rootView = fragment.updateView(rootView, position);
+        }
+
         return rootView;
     }
 
